@@ -1,0 +1,24 @@
+
+175-select 	p.firstName as firstName , 
+		p.lastName as lastName,
+		a.city as city, 
+		a.state as state 
+    from Person p left join Address a 
+    on p.personId=a.personId;
+
+
+
+176
+Method 1-
+    select 	max(salary)as SecondHighestSalary 
+    from  Employee 
+    where salary<(select max(salary) from Employee);
+
+Method2-
+ with cte as 
+(
+select coalesce(salary,null) as salary,
+dense_rank() over(order by salary desc) as dnk,
+rank() over(order by salary desc) as rnk from Employee
+)
+select max(salary) as SecondHighestSalary from cte where dnk=2 
